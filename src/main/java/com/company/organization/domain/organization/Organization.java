@@ -23,13 +23,20 @@ public class Organization extends Auditable {
 
     private String email;
 
-     private Boolean isActive = true;
+    private String address;
+
+    private String phoneNumber;
+
+    private Boolean isActive = true;
 
     @Builder(builderMethodName = "organizationBuilder")
-    public Organization(Long createdBy, Long updateBy, LocalDateTime createdAt, LocalDateTime updatedAt, Long id, String name, String email) {
+    public Organization(Long createdBy, Long updateBy, LocalDateTime createdAt, LocalDateTime updatedAt, Long id, String name, String email, String address, String phoneNumber, Boolean isActive) {
         super(createdBy, updateBy, createdAt, updatedAt);
         this.id = id;
         this.name = name;
         this.email = email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.isActive = isActive;
     }
 }

@@ -17,10 +17,11 @@ public class Outcome extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "warehouse_id", referencedColumnName = "id")
     private Warehouse warehouse;
 
-     private Boolean isActive = true;
+    private Boolean isActive = true;
 
     @Builder(builderMethodName = "outcomeBuilder")
     public Outcome(Long createdBy, Long updateBy, LocalDateTime createdAt, LocalDateTime updatedAt, Long id, Warehouse warehouse, Boolean isActive) {

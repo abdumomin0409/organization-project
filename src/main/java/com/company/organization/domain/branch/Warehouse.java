@@ -25,17 +25,18 @@ public class Warehouse extends Auditable {
 
     private Double latitude;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "keeper_id", referencedColumnName = "id")
     private User keeperId;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "branch_id", referencedColumnName = "id")
     private Branch branch;
 
     private Boolean isActive = true;
 
     @Builder(builderMethodName = "warehouseBuilder")
-    public Warehouse(Long createdBy, Long updateBy, LocalDateTime createdAt, LocalDateTime updatedAt, Long id, String name, String address,
-                     Double longitude, Double latitude, User keeperId, Branch branch, Boolean isActive) {
+    public Warehouse(Long createdBy, Long updateBy, LocalDateTime createdAt, LocalDateTime updatedAt, Long id, String name, String address, Double longitude, Double latitude, User keeperId, Branch branch, Boolean isActive) {
         super(createdBy, updateBy, createdAt, updatedAt);
         this.id = id;
         this.name = name;

@@ -5,10 +5,14 @@ package com.company.organization.config;
 */
 
 
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import jakarta.validation.constraints.NotNull;
 import org.springdoc.core.models.GroupedOpenApi;
@@ -46,20 +50,32 @@ public class OpenApiConfig {
     public OpenAPI springOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title(" Organization service API")
-                        .description("API for organization service")
-                        .version("0.0.1")
+                        .title("Organization")
+                        .description("API for making the process of organization products")
+                        .version("1")
                         .contact(new Contact()
-                                .name("Abdumomin")
+                                .name("Abdumo'min Shamshiddinov")
                                 .email("shamshiddinovabdumomin2003@gmail.com")
                                 .url("https://github.com/abdumomin0409"))
                         .license(new License()
                                 .name("Apache 2.0")
                                 .url("http://springdoc.org"))
                         .termsOfService("http://swagger.io/terms/"))
+                .externalDocs(new ExternalDocumentation()
+                        .description("SpringShop Wiki Documentation")
+                        .url("https://springshop.wiki.github.org/docs"))
                 .servers(List.of(
-                        new Server().url("http://localhost:8080").description("Development server"))
-                );
+                        new Server().url("http://localhost:8080").description("Development Server")
+                     // , new Server().url("http://192.168.68.101:8080").description("Production Server"),
+                     //   new Server().url("http://localhost:9090").description("Test Server")
+                )).addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+                .components((new Components()
+                        .addSecuritySchemes("bearerAuth", new SecurityScheme()
+                                .name("bearerAuth")
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .bearerFormat("JWT"))
+                ));
     }
 
 

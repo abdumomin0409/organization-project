@@ -5,6 +5,7 @@ import com.company.organization.domain.organization.Organization;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Setter
@@ -23,10 +24,11 @@ public class Branch implements BaseDomain {
 
     private String address;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "organization_id", referencedColumnName = "id")
     private Organization organization;
 
-    private LocalDateTime workBegin;
+    private LocalDate workBegin;
 
     private Boolean isActive = true;
 }

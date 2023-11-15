@@ -1,10 +1,8 @@
 package com.company.organization.controller.auth;
 
 import com.company.organization.controller.BaseController;
-import com.company.organization.domain.user.User;
 import com.company.organization.enums.SmsCodeType;
 import com.company.organization.payload.auth.RefreshTokenRequest;
-import com.company.organization.payload.auth.TokenResponse;
 import com.company.organization.payload.user.UserResetPasswordDTO;
 import com.company.organization.payload.user.UserSignInDto;
 import com.company.organization.payload.user.UserSignUpDto;
@@ -37,8 +35,9 @@ public class AuthController extends BaseController<AuthService> {
     })
     @PostMapping(REGISTER_URL)
     public ResponseEntity<ResponseData<?>> register(@Valid @RequestBody UserSignUpDto dto) {
+        this.service.signUp(dto);
         return ResponseEntity.status(201)
-                .body(ResponseData.builder().data(this.service.signUp(dto)).code(121212)
+                .body(ResponseData.builder().code(121212)
                         .message("User successfully registered").success(true).build());
     }
 

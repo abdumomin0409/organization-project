@@ -16,7 +16,8 @@ public class OrganizationProduct extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "organization_id", referencedColumnName = "id")
     private Organization organization;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -25,8 +26,7 @@ public class OrganizationProduct extends Auditable {
     private Boolean isActive = true;
 
     @Builder(builderMethodName = "organizationProductBuilder")
-    public OrganizationProduct(Long createdBy, Long updateBy, LocalDateTime createdAt, LocalDateTime updatedAt, Long id, Organization organization,
-                               Product product, Boolean isActive) {
+    public OrganizationProduct(Long createdBy, Long updateBy, LocalDateTime createdAt, LocalDateTime updatedAt, Long id, Organization organization, Product product, Boolean isActive) {
         super(createdBy, updateBy, createdAt, updatedAt);
         this.id = id;
         this.organization = organization;

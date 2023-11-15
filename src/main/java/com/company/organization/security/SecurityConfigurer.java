@@ -75,8 +75,7 @@ public class SecurityConfigurer {
 
 
     @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder,
-                                     LoggingInterceptor loggingInterceptor) {
+    public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder, LoggingInterceptor loggingInterceptor) {
         return restTemplateBuilder
                 .additionalInterceptors(loggingInterceptor)
                 .setConnectTimeout(Duration.ofSeconds(3))
@@ -98,6 +97,7 @@ public class SecurityConfigurer {
             objectMapper.writeValue(outputStream, appErrorDto);
         };
     }
+
 
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
@@ -138,7 +138,6 @@ public class SecurityConfigurer {
         configuration.setAllowedMethods(List.of(
                 "GET", "POST", "DELETE", "PUT"
         ));
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

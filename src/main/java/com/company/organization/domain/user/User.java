@@ -34,13 +34,18 @@ public class User implements BaseDomain, UserDetails {
     @JsonIgnore
     private String password;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "roles_id", referencedColumnName = "id")
+    private Roles roles;
+/*
     private Roles roles = Roles.builder().createdAt(LocalDateTime.now()).name("USER").build();
+*/
 
     @Builder.Default
     private Boolean isActive = true;
 
-    private LocalDateTime createdAt;
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
 
 
     @Override
@@ -57,12 +62,12 @@ public class User implements BaseDomain, UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return !getIsActive();
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return getRoles().getIsActive();
+        return true;
     }
 
     @Override

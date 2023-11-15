@@ -25,6 +25,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Service
@@ -51,16 +52,16 @@ public class AuthService implements BaseService {
         this.rolesRepository = rolesRepository;
     }
 
-    public User signUp(UserSignUpDto dto) {
+    public void signUp(UserSignUpDto dto) {
         if (!dto.getPassword().equals(dto.getPrePassword()))
             throw new ValidateException("Passwords are not equal", -121219);
         if (!dto.getPhoneNumber().matches("^[+][0-9]{12}$"))
             throw new ValidateException("Invalid phone number", -121218);
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         User user = userMapper.USER_MAPPER.toEntity(dto);
+        user.setRoles(Roles.builder().createdAt(LocalDateTime.now()).isActive(true).name("USER").build());
         User saved = saveToDb(user);
         applicationEventPublisher.publishEvent(new UserSmsSaveEvent(saved, SmsCodeType.ACTIVATION));
-        return saved;
     }
 
     public String activate(UserSmsDto dto) {
