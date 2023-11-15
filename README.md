@@ -5,10 +5,9 @@
 <hr>
 <pre>
 💻 I wrote this project on my own in my spare time to fully replicate Spring boot
-<br>
 📝 This project is written by all my java skills
-<br>
-🌟 If you have project shortcomings and other suggestions, please write to this telegram and linkedIn account:
+🌟 If you have project shortcomings and other suggestions, 
+	please write to this telegram and linkedIn account:
 	
   [![image](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/abdumomin0409/)
   [![image](https://img.shields.io/badge/Telegram-26A5E4.svg?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/Mavlonovich_java)
