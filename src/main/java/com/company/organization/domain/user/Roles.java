@@ -24,7 +24,8 @@ public class Roles implements BaseDomain {
 
     private String name;
 
-     private Boolean isActive = Boolean.TRUE;
+    @Builder.Default
+    private Boolean isActive = true;
 
     private LocalDateTime createdAt;
 }

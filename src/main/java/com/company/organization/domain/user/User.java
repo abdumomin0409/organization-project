@@ -34,10 +34,11 @@ public class User implements BaseDomain, UserDetails {
     @JsonIgnore
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Roles roles;
+    @ManyToOne
+    private Roles roles = Roles.builder().createdAt(LocalDateTime.now()).name("USER").build();
 
-     private Boolean isActive = Boolean.TRUE;
+    @Builder.Default
+    private Boolean isActive = true;
 
     private LocalDateTime createdAt;
 

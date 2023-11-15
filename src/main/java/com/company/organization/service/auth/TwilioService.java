@@ -1,12 +1,13 @@
 package com.company.organization.service.auth;
 
+import com.company.organization.service.BaseService;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TwilioService {
+public class TwilioService implements BaseService {
     private String ACCOUNT_SID;
     private String AUTH_TOKEN;
     private String FROM_NUMBER;

@@ -23,7 +23,7 @@ public class Product extends Auditable {
 
     private String description;
 
-     private Boolean isActive = true;
+    private Boolean isActive = true;
 
     @Builder(builderMethodName = "productBuilder")
     public Product(Long createdBy, Long updateBy, LocalDateTime createdAt, LocalDateTime updatedAt, Long id, String name, String description, Boolean isActive) {

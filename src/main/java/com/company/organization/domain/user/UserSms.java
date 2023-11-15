@@ -24,7 +24,8 @@ public class UserSms implements BaseDomain {
     private Long userId;
 
     @Enumerated(EnumType.STRING)
-     private SmsCodeType type = SmsCodeType.ACTIVATION;
+    @Builder.Default
+    private SmsCodeType type = SmsCodeType.ACTIVATION;
 
     @CreationTimestamp
     @Column(columnDefinition = "timestamp default now()", updatable = false)

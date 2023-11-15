@@ -5,6 +5,7 @@ import com.company.organization.domain.user.UserSms;
 import com.company.organization.enums.SmsCodeType;
 import com.company.organization.event_listener.events.GoingTwilioEvent;
 import com.company.organization.repository.auth.UserSmsRepository;
+import com.company.organization.service.BaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
-public class UserSmsService {
+public class UserSmsService implements BaseService {
     private final UserSmsRepository userSmsRepository;
     private final Random random;
     private final TwilioService twilioService;
@@ -25,15 +26,14 @@ public class UserSmsService {
     public void createUserSms(User savedUser, SmsCodeType type) {
         Long userId = savedUser.getId();
         UserSms userSms = findByUserId(userId, type);
-        if (!Objects.isNull(userSms)) {
+        if (Objects.nonNull(userSms))
             return;
-        }
         UserSms build = UserSms.builder()
                 .userId(savedUser.getId())
 //                .randomCode(randomCode())
                 .randomCode(123456)
                 .type(type)
-                .toTime(LocalDateTime.now().plus(3, ChronoUnit.MINUTES))
+                .toTime(LocalDateTime.now().plusMinutes(3))
                 .build();
         build.setExpired(false);
         userSmsRepository.save(build);

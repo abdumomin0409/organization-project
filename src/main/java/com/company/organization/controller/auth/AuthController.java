@@ -35,7 +35,7 @@ public class AuthController extends BaseController<AuthService> {
             @ApiResponse(responseCode = "201", description = "User Successfully Registered", content = @Content(schema = @Schema(implementation = ResponseData.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseData.class)))
     })
-    @PostMapping("/register")
+    @PostMapping(REGISTER_URL)
     public ResponseEntity<ResponseData<?>> register(@Valid @RequestBody UserSignUpDto dto) {
         return ResponseEntity.status(201)
                 .body(ResponseData.builder().data(this.service.signUp(dto)).code(121212)
@@ -47,10 +47,9 @@ public class AuthController extends BaseController<AuthService> {
             @ApiResponse(responseCode = "200", description = "User Successfully Checked Activated Code", content = @Content(schema = @Schema(implementation = ResponseData.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseData.class)))
     })
-    @PostMapping("/activate")
+    @PostMapping(ACTIVATE_URL)
     public ResponseEntity<ResponseData<?>> activate(@Valid @RequestBody UserSmsDto dto) {
-        String activate = this.service.activate(dto);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(ResponseData.builder().message(this.service.activate(dto)).code(121213).success(true).build());
     }
 
 
@@ -58,10 +57,10 @@ public class AuthController extends BaseController<AuthService> {
             @ApiResponse(responseCode = "200", description = "User Successfully Login", content = @Content(schema = @Schema(implementation = ResponseData.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseData.class)))
     })
-    @PostMapping("/get/accessToken")
-    public ResponseEntity<ResponseData<TokenResponse>> getAccessToken(@Valid @RequestBody UserSignInDto dto) {
-        TokenResponse login = this.service.getAccessToken(dto);
-        return ResponseEntity.ok(null);
+    @PostMapping(GET_ACCESS_TOKEN_URL)
+    public ResponseEntity<ResponseData<?>> getAccessToken(@Valid @RequestBody UserSignInDto dto) {
+        return ResponseEntity.ok(ResponseData.builder().data(this.service.getAccessToken(dto)).code(121214)
+                .message("Successfully get access token").success(true).build());
     }
 
 
@@ -69,39 +68,42 @@ public class AuthController extends BaseController<AuthService> {
             @ApiResponse(responseCode = "200", description = "Refresh Token Generated", content = @Content(schema = @Schema(implementation = ResponseData.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseData.class)))
     })
-    @PostMapping("/refresh/token")
+    @PostMapping(REFRESH_TOKEN_URL)
     public ResponseEntity<ResponseData<?>> refreshToken(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
-        TokenResponse refreshedToken = this.service.refreshToken(refreshTokenRequest);
-        return ResponseEntity.ok(ResponseData.builder().code(4545).data(refreshedToken).build());
+        return ResponseEntity.ok(ResponseData.builder().message("Successfully refresh token").success(true)
+                .code(121215).data(this.service.refreshToken(refreshTokenRequest)).build());
     }
 
     @Operation(summary = "This API is used for user activating users through the activation code that was sent via SMS", responses = {
             @ApiResponse(responseCode = "200", description = "User activated", content = @Content(schema = @Schema(implementation = ResponseData.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseData.class)))})
-    @PostMapping("/code/resend")
-    public ResponseEntity<ResponseData<Void>> resendCode(@RequestParam String phoneNumber) {
+    @PostMapping(CODE_RESEND_URL)
+    public ResponseEntity<ResponseData<?>> resendCode(@RequestParam String phoneNumber) {
         this.service.resendCode(phoneNumber, SmsCodeType.ACTIVATION);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(ResponseData.builder().code(121216)
+                .message("Successfully resend code").success(true).build());
     }
 
 
     @Operation(summary = "This API is used for user that forgot password ", responses = {
             @ApiResponse(responseCode = "200", description = "Sms code sent", content = @Content(schema = @Schema(implementation = ResponseData.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseData.class)))})
-    @PostMapping("/forget/password")
-    public ResponseEntity<ResponseData<Void>> forgetPasswordRequest(@RequestParam String phoneNumber) {
+    @PostMapping(FORGOT_PASSWORD_URL)
+    public ResponseEntity<ResponseData<?>> forgetPasswordRequest(@RequestParam String phoneNumber) {
         this.service.resendCode(phoneNumber, SmsCodeType.FORGET_PASSWORD);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(ResponseData.builder().code(121217)
+                .message("Successfully forget password").success(true).build());
     }
 
 
     @Operation(summary = "This API is used for user ", responses = {
             @ApiResponse(responseCode = "200", description = "Changed user's password ", content = @Content(schema = @Schema(implementation = ResponseData.class))),
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseData.class)))})
-    @PostMapping("/forget/password/activate")
-    public ResponseEntity<ResponseData<Void>> forgetPasswordActivate(@Valid @RequestBody UserResetPasswordDTO dto) {
+    @PostMapping(FORGOT_PASSWORD_ACTIVATE_URL)
+    public ResponseEntity<ResponseData<?>> forgetPasswordActivate(@Valid @RequestBody UserResetPasswordDTO dto) {
         this.service.forgetPasswordActivate(dto);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(ResponseData.builder().code(121218)
+                .message("Successfully forget password activate").success(true).build());
     }
 
 

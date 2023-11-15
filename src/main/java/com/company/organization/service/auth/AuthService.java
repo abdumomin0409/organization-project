@@ -6,7 +6,7 @@ import com.company.organization.domain.user.UserSms;
 import com.company.organization.enums.SmsCodeType;
 import com.company.organization.enums.TokenType;
 import com.company.organization.event_listener.events.UserSmsSaveEvent;
-import com.company.organization.exception_handler.exception.ValidationException;
+import com.company.organization.exception_handler.exception.ValidateException;
 import com.company.organization.mapper.user.UserMapper;
 import com.company.organization.payload.auth.RefreshTokenRequest;
 import com.company.organization.payload.auth.TokenResponse;
@@ -53,9 +53,9 @@ public class AuthService implements BaseService {
 
     public User signUp(UserSignUpDto dto) {
         if (!dto.getPassword().equals(dto.getPrePassword()))
-            throw new ValidationException("Passwords are not equal", -121219);
+            throw new ValidateException("Passwords are not equal", -121219);
         if (!dto.getPhoneNumber().matches("^[+][0-9]{12}$"))
-            throw new ValidationException("Invalid phone number", -121218);
+            throw new ValidateException("Invalid phone number", -121218);
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         User user = userMapper.USER_MAPPER.toEntity(dto);
         User saved = saveToDb(user);
@@ -66,22 +66,21 @@ public class AuthService implements BaseService {
     public String activate(UserSmsDto dto) {
         User user = findByPhone(dto.getPhoneNumber());
         UserSms userSms = userSmsService.findByUserId(user.getId(), SmsCodeType.ACTIVATION);
-        if (!Objects.isNull(userSms) && userSms.getRandomCode() == Integer.parseInt(dto.getCode())) {
+        if (Objects.nonNull(userSms) && userSms.getRandomCode() == Integer.parseInt(dto.getCode())) {
             userSms.setExpired(true);
             userSmsService.update(userSms);
             userRepository.updateStatusById(user.getId());
             return "User successfully activated";
         }
-        throw new ValidationException("Invalid code", -121217);
+        throw new ValidateException("Invalid code", -121217);
     }
 
     public TokenResponse getAccessToken(UserSignInDto dto) {
         String phoneNumber = dto.getPhoneNumber();
         String password = dto.getPassword();
         User user = findByPhone(phoneNumber);
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new ValidationException("Phone number or password is incorrect", -121216);
-        }
+        if (!passwordEncoder.matches(password, user.getPassword()))
+            throw new ValidateException("Phone number or password is incorrect", -121216);
         userRepository.updateStatusById(user.getId());
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(phoneNumber, password);
         this.authenticationManager.authenticate(authentication);
@@ -90,9 +89,8 @@ public class AuthService implements BaseService {
 
     public TokenResponse refreshToken(RefreshTokenRequest dto) {
         String refreshToken = dto.refreshToken();
-        if (!jwtUtils.isTokenValid(refreshToken, TokenType.REFRESH)) {
-            throw new ValidationException("Refresh token is invalid", -121215);
-        }
+        if (!jwtUtils.isTokenValid(refreshToken, TokenType.REFRESH))
+            throw new ValidateException("Refresh token is invalid", -121215);
         String phoneNumber = jwtUtils.getUsername(refreshToken, TokenType.REFRESH);
         userRepository.optionalFindByPhoneNumber(phoneNumber);
         TokenResponse tokenResponse = TokenResponse.builder()
@@ -110,10 +108,8 @@ public class AuthService implements BaseService {
 
     public void updateSuperAdmin(String superAdmin1) {
         User user = userRepository.findByPhoneNumber(superAdmin1);
-        if (Objects.nonNull(user)) {
-            Roles admin = rolesRepository.findByActiveAndName("ROLE_ADMIN");
-            userRepository.promoteToSuperAdmin(admin, superAdmin1);
-        }
+        if (Objects.nonNull(user))
+            userRepository.promoteToSuperAdmin(rolesRepository.findByActiveAndName("ROLE_ADMIN"), superAdmin1);
     }
 
 
@@ -127,12 +123,12 @@ public class AuthService implements BaseService {
             userRepository.save(user);
             return;
         }
-        throw new ValidationException("Invalid code", -121213);
+        throw new ValidateException("Invalid code", -121213);
     }
 
     private User findByPhone(String phoneNumber) {
         return userRepository.optionalFindByPhoneNumber(phoneNumber)
-                .orElseThrow(() -> new ValidationException("Phone number not found", -121214));
+                .orElseThrow(() -> new ValidateException("Phone number not found", -121214));
     }
 
     public boolean existsByPhoneNumber(String phoneNumber) {

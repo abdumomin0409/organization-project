@@ -13,7 +13,7 @@ import lombok.*;
 public class UserSignUpDto {
 
     @NotBlank(message = "fio bo'sh bo'lmasligi kerak")
-    private String fio;
+    private String fullName;
 
     @NotBlank(message = "phoneNumber bo'sh bo'lmasligi kerak")
     @UniquePhoneNumber(message = "Bu phoneNumber avval ro'yxatdan o'tgan")

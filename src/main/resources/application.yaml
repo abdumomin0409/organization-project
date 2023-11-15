@@ -12,6 +12,32 @@ jwt:
       expiry: 864000000 # 10 days
       secret:
         key: 7134743777217A25432A462D4A614E645267556B58703272357538782F413F44
+management:
+  endpoint:
+    health:
+      show-details: always
+    startup:
+      enabled: true
+  health:
+    diskspace:
+      enabled: true
+      threshold: 1GB
+
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+logging:
+  level:
+    root: info
+    org:
+      springframework:
+        web:
+          client:
+            RestTemplate: debug
+      zalando:
+        logbook: TRACE
+
 
 ---
 spring:

@@ -29,6 +29,5 @@ public class TelegramAppender extends AppenderBase<LoggingEvent> {
         String logMessage = loggingEvent.toString();
         SendMessage sendMessage = new SendMessage(chatID, logMessage);
         telegramBot.execute(sendMessage);
-
     }
 }

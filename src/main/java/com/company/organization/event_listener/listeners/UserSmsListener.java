@@ -11,6 +11,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 @Component
 @RequiredArgsConstructor
 public class UserSmsListener {
@@ -23,9 +25,8 @@ public class UserSmsListener {
     public void userSmsSaveEventListener(UserSmsSaveEvent event) {
         User user = event.getUser();
         SmsCodeType smsCodeType = event.getSmsCodeType();
-        if (user != null) {
+        if (Objects.nonNull(user))
             userSmsService.createUserSms(user, smsCodeType);
-        }
     }
 
     @Async
@@ -36,7 +37,7 @@ public class UserSmsListener {
         if (toPhoneNumber != null && randomCode != null) {
             System.out.println(" = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = ");
             System.out.println(" = = = =                                                         = = = ");
-            System.out.println(" = = = =     " + randomCode + "                                          = = = ");
+            System.out.println(" = = = =     " + randomCode + "                                              = = = ");
             System.out.println(" = = = =                                                         = = = ");
             System.out.println(" = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = ");
 //            twilioService.sendSMSCode(toPhoneNumber, randomCode);

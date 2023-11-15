@@ -22,7 +22,7 @@ public class OrganizationProduct extends Auditable {
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
 
-     private Boolean isActive = true;
+    private Boolean isActive = true;
 
     @Builder(builderMethodName = "organizationProductBuilder")
     public OrganizationProduct(Long createdBy, Long updateBy, LocalDateTime createdAt, LocalDateTime updatedAt, Long id, Organization organization,

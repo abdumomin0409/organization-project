@@ -28,5 +28,5 @@ public class Branch implements BaseDomain {
 
     private LocalDateTime workBegin;
 
-    private Boolean isActive = Boolean.TRUE;
+    private Boolean isActive = true;
 }
