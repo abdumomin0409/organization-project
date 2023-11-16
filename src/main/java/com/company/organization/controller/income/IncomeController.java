@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import static com.company.organization.utils.BaseURL.*;
@@ -18,6 +19,7 @@ import static com.company.organization.utils.BaseURL.*;
 @RestController
 @RequestMapping(INCOME_URL)
 @Tag(name = "Income Product", description = "This API is used for income crud")
+@PreAuthorize("isAuthenticated()")
 public class IncomeController extends BaseController<IncomeService> {
     public IncomeController(IncomeService service) {
         super(service);
