@@ -22,8 +22,7 @@ public class LoggingInterceptor implements ClientHttpRequestInterceptor {
 
 
     @Override
-    public @NonNull ClientHttpResponse intercept(@NonNull HttpRequest req,@NotNull byte[] reqBody,
-                                                 ClientHttpRequestExecution ex) throws IOException {
+    public @NonNull ClientHttpResponse intercept(@NonNull HttpRequest req, @NotNull byte[] reqBody, ClientHttpRequestExecution ex) throws IOException {
         log.debug("Request body: {}", new String(reqBody, StandardCharsets.UTF_8));
         ClientHttpResponse response = ex.execute(req, reqBody);
         InputStreamReader isr = new InputStreamReader(response.getBody(), StandardCharsets.UTF_8);

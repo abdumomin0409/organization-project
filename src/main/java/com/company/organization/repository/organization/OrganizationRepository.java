@@ -17,4 +17,6 @@ public interface OrganizationRepository extends JpaRepository<Organization, Long
     @Query("select o from Organization o where o.isActive = true")
     Page<Organization> findAllByPageable(Pageable pageable);
 
+
+
 }

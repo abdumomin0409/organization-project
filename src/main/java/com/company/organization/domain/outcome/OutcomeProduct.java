@@ -21,6 +21,8 @@ public class OutcomeProduct implements BaseDomain {
     @JoinColumn(name = "organization_product_id", referencedColumnName = "id")
     private OrganizationProduct organizationProduct;
 
+    private Integer quantity;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "outcome_id", referencedColumnName = "id")
     private Outcome outcome;

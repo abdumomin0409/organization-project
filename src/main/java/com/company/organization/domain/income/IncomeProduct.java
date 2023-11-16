@@ -20,6 +20,8 @@ public class IncomeProduct implements BaseDomain {
     @ManyToOne(fetch = FetchType.LAZY)
     private OrganizationProduct organizationProduct;
 
+    private Integer quantity;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Income income;
 

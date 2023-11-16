@@ -22,7 +22,6 @@ management:
     diskspace:
       enabled: true
       threshold: 1GB
-
   endpoints:
     web:
       exposure:
