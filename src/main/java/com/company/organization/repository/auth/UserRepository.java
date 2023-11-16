@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Transactional
     @Modifying
-    @Query("update users u set u.id = ?1")
+    @Query("update users u set u.isActive = true where u.id = ?1")
     void updateStatusById(Long id);
 
     @Query("select u from users u where u.phoneNumber = ?1")

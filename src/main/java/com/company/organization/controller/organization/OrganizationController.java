@@ -34,7 +34,7 @@ public class OrganizationController extends BaseController<OrganizationService> 
     @PostMapping(CREATE_URL)
     public ResponseEntity<ResponseData<?>> create(@Valid @RequestBody OrganizationCreateDTO dto) {
         return ResponseEntity.status(201)
-                .body(ResponseData.builder().data(service.create(dto)).code(131210)
+                .body(ResponseData.builder().data(service.create(dto)).code(151210)
                         .message("Organization successfully create").success(true).build());
     }
 
@@ -45,7 +45,7 @@ public class OrganizationController extends BaseController<OrganizationService> 
     @PutMapping(UPDATE_URL)
     public ResponseEntity<ResponseData<?>> updateById(@PathVariable(value = "id") Long id, @Valid @RequestBody OrganizationUpdateDTO dto) {
         return ResponseEntity.status(202)
-                .body(ResponseData.builder().data(service.updateById(id, dto)).code(131211)
+                .body(ResponseData.builder().data(service.updateById(id, dto)).code(151211)
                         .message("Organization successfully update by id").success(true).build());
     }
 
@@ -56,7 +56,7 @@ public class OrganizationController extends BaseController<OrganizationService> 
     @DeleteMapping(DELETE_URL)
     public ResponseEntity<ResponseData<?>> deleteById(@PathVariable(value = "id") Long id) {
         return ResponseEntity.status(202)
-                .body(ResponseData.builder().data(service.deleteById(id)).code(131212)
+                .body(ResponseData.builder().data(service.deleteById(id)).code(151212)
                         .message("Organization successfully delete by id").success(true).build());
     }
 
@@ -67,7 +67,7 @@ public class OrganizationController extends BaseController<OrganizationService> 
     @GetMapping(GET_URL)
     public ResponseEntity<ResponseData<?>> getById(@PathVariable(value = "id") Long id) {
         return ResponseEntity.status(200)
-                .body(ResponseData.builder().data(service.getById(id)).code(131213)
+                .body(ResponseData.builder().data(service.getById(id)).code(151213)
                         .message("Organization successfully get by id").success(true).build());
     }
 
@@ -78,7 +78,7 @@ public class OrganizationController extends BaseController<OrganizationService> 
     @GetMapping(GET_ALL_URL)
     public ResponseEntity<ResponseData<?>> getAll() {
         return ResponseEntity.status(200)
-                .body(ResponseData.builder().data(service.getAll()).code(131214)
+                .body(ResponseData.builder().data(service.getAll()).code(151214)
                         .message("Organization successfully get all").success(true).build());
     }
 
@@ -90,9 +90,9 @@ public class OrganizationController extends BaseController<OrganizationService> 
     public ResponseEntity<ResponseData<?>> getAllByPageable(@RequestParam(required = false, defaultValue = "10") Integer size,
                                                             @RequestParam(required = false, defaultValue = "1") @Min(value = 1) Integer page) {
         Sort sort = Sort.by(Sort.Direction.ASC, "id");
-        PageRequest pageRequest = PageRequest.of(page - 1, size, sort);
+        PageRequest pageRequest = PageRequest.of(page-1, size, sort);
         return ResponseEntity.status(200)
-                .body(ResponseData.builder().data(service.getAllFixed(pageRequest)).code(131214)
+                .body(ResponseData.builder().data(service.getAllFixed(pageRequest)).code(151215)
                         .message("Organization successfully get all fixed").success(true).build());
     }
 

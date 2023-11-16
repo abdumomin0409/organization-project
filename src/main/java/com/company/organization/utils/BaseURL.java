@@ -4,6 +4,9 @@ public interface BaseURL {
     String BASE_URL = "/api/v1";
     String AUTH_URL = BASE_URL + "/auth";
     String ORGANIZATION_URL = BASE_URL + "/organization";
+    String PRODUCT_URL = BASE_URL + "/product";
+    String BRANCH_URL = BASE_URL + "/branch";
+    String WAREHOUSE_URL = BASE_URL + "/warehouse";
     String REGISTER_URL = "/register";
     String ACTIVATE_URL = "/activate";
     String GET_ACCESS_TOKEN_URL = "/get/accessToken";

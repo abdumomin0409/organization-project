@@ -1,4 +1,4 @@
-package com.company.organization.payload.user;
+package com.company.organization.payload.auth;
 
 import com.company.organization.annotations.annotation.UniquePhoneNumber;
 import jakarta.validation.constraints.NotBlank;

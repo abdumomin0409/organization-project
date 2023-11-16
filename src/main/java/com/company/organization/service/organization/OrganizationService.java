@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.company.organization.mapper.organization.OrganizationMapper.ORGANIZATION_MAPPER;
@@ -23,18 +24,25 @@ public class OrganizationService implements BaseService {
     Logger logger = Logger.getLogger(OrganizationService.class.getName());
 
     public Organization create(OrganizationCreateDTO dto) {
+        logger.log(Level.INFO, "OrganizationService create method called");
+        if (existsByName(dto.name()))
+            throw new ValidateException("Organization already exists", -1400002);
         Organization organization = ORGANIZATION_MAPPER.fromCreateToOrganization(dto);
+        organization.setIsActive(true);
         return organizationRepository.save(organization);
     }
 
     public Organization updateById(Long id, OrganizationUpdateDTO dto) {
+        logger.log(Level.INFO, "OrganizationService updateById method called");
         if (!existsById(id))
             throw new ValidateException("Organization not found", -1400001);
-        Organization organization = ORGANIZATION_MAPPER.fromUpdateToOrganization(dto);
-        return organizationRepository.save(organization);
+        Organization byId = getById(id);
+        ORGANIZATION_MAPPER.fromUpdateToOrganization(dto, byId);
+        return organizationRepository.save(byId);
     }
 
     public Organization deleteById(Long id) {
+        logger.log(Level.INFO, "OrganizationService deleteById method called");
         if (!existsById(id))
             throw new ValidateException("Organization not found", -1400001);
         Organization organization = getById(id);
@@ -43,23 +51,28 @@ public class OrganizationService implements BaseService {
     }
 
     public Organization getById(Long id) {
+        logger.log(Level.INFO, "OrganizationService getById method called");
         return organizationRepository.findById(id).orElseThrow(() -> new ValidateException("Organization not found", -1400005));
     }
 
     public List<Organization> getAll() {
+        logger.log(Level.INFO, "OrganizationService getAll method called");
         return organizationRepository.findAll();
     }
 
     public Page<Organization> getAllFixed(Pageable pageable) {
+        logger.log(Level.INFO, "OrganizationService getAllFixed method called");
         return organizationRepository.findAllByPageable(pageable);
     }
 
     public boolean existsByName(String name) {
+        logger.log(Level.INFO, "OrganizationService existsByName method called");
         return organizationRepository.existsByName(name);
     }
 
     public boolean existsById(Long id) {
-        return !organizationRepository.existsById(id);
+        logger.log(Level.INFO, "OrganizationService existsById method called");
+        return organizationRepository.existsById(id);
     }
 
 

@@ -1,4 +1,4 @@
-package com.company.organization.payload.user;
+package com.company.organization.payload.auth;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
