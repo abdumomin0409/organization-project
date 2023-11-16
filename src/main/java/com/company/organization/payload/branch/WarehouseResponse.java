@@ -2,17 +2,17 @@ package com.company.organization.payload.branch;
 
 import lombok.*;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BranchResponse {
+public class WarehouseResponse {
     private Long id;
     private String name;
     private String address;
-    private Long organizationId;
-    private LocalDate workBegin;
+    private Long keeperId;
+    private Long branchId;
+    private Double longitude;
+    private Double latitude;
 }

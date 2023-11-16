@@ -4,6 +4,7 @@ import com.company.organization.domain.branch.Branch;
 import com.company.organization.domain.branch.Warehouse;
 import com.company.organization.exception_handler.exception.ValidateException;
 import com.company.organization.payload.branch.WarehouseDTO;
+import com.company.organization.payload.branch.WarehouseResponse;
 import com.company.organization.repository.branch.BranchRepository;
 import com.company.organization.repository.branch.WarehouseRepository;
 import com.company.organization.service.BaseService;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,11 +29,12 @@ public class WarehouseService implements BaseService {
     Logger logger = Logger.getLogger(WarehouseService.class.getName());
     private final BranchRepository branchRepository;
 
-    public Warehouse create(WarehouseDTO dto) {
+    public WarehouseResponse create(WarehouseDTO dto) {
         logger.log(Level.INFO, "WarehouseService create method called by dto %s".formatted(dto.toString()));
         if (existsWarehouseByAddressAndLatitudeAndLatitude(dto.address(), dto.latitude(), dto.longitude()))
             throw new ValidateException("Warehouse already exists by address, latitude, longitude", -1400002);
-        Warehouse warehouse = Warehouse.warehouseBuilder().address(dto.address())
+        Warehouse warehouse = Warehouse.warehouseBuilder()
+                .address(dto.address())
                 .name(dto.name())
                 .latitude(dto.latitude())
                 .longitude(dto.longitude())
@@ -42,10 +45,19 @@ public class WarehouseService implements BaseService {
         if (existsWarehouseByBranch(branch))
             throw new ValidateException("Warehouse already exists by branch", -1400002);
         warehouse.setBranch(branch);
-        return warehouseRepository.save(warehouse);
+        Warehouse saved = warehouseRepository.save(warehouse);
+        return WarehouseResponse.builder()
+                .id(saved.getId())
+                .keeperId(saved.getKeeperId().getId())
+                .branchId(saved.getBranch().getId())
+                .address(saved.getAddress())
+                .name(saved.getName())
+                .longitude(saved.getLongitude())
+                .latitude(saved.getLatitude())
+                .build();
     }
 
-    public Warehouse updateById(Long id, WarehouseDTO dto) {
+    public WarehouseResponse updateById(Long id, WarehouseDTO dto) {
         logger.log(Level.INFO, "WarehouseService updateById method called by id %d and dto %s".formatted(id, dto.toString()));
         if (!existsById(id))
             throw new ValidateException("Warehouse not found", -1400001);
@@ -62,16 +74,50 @@ public class WarehouseService implements BaseService {
         if (!byId.getBranch().equals(branch) && existsWarehouseByBranch(branch))
             throw new ValidateException("Warehouse already exists by branch", -1400002);
         byId.setBranch(branch);
-        return warehouseRepository.save(byId);
+        Warehouse saved = warehouseRepository.save(byId);
+        return WarehouseResponse.builder()
+                .id(saved.getId())
+                .keeperId(saved.getKeeperId().getId())
+                .branchId(saved.getBranch().getId())
+                .address(saved.getAddress())
+                .name(saved.getName())
+                .longitude(saved.getLongitude())
+                .latitude(saved.getLatitude())
+                .build();
     }
 
-    public Warehouse deleteById(Long id) {
+    public WarehouseResponse deleteById(Long id) {
         logger.log(Level.INFO, "WarehouseService deleteById method called by id %d".formatted(id));
         if (!existsById(id))
             throw new ValidateException("Warehouse not found", -1400001);
         Warehouse warehouse = getById(id);
         warehouse.setIsActive(false);
-        return warehouseRepository.save(warehouse);
+        Warehouse saved = warehouseRepository.save(warehouse);
+        return WarehouseResponse.builder()
+                .id(saved.getId())
+                .keeperId(saved.getKeeperId().getId())
+                .branchId(saved.getBranch().getId())
+                .address(saved.getAddress())
+                .name(saved.getName())
+                .longitude(saved.getLongitude())
+                .latitude(saved.getLatitude())
+                .build();
+    }
+
+    public WarehouseResponse getId(Long id) {
+        logger.log(Level.INFO, "WarehouseService getById method called by id %d".formatted(id));
+        if (!existsById(id))
+            throw new ValidateException("Warehouse not found", -1400001);
+        Warehouse warehouse = getById(id);
+        return WarehouseResponse.builder()
+                .id(warehouse.getId())
+                .keeperId(warehouse.getKeeperId().getId())
+                .branchId(warehouse.getBranch().getId())
+                .address(warehouse.getAddress())
+                .name(warehouse.getName())
+                .longitude(warehouse.getLongitude())
+                .latitude(warehouse.getLatitude())
+                .build();
     }
 
     public Warehouse getById(Long id) {
@@ -79,9 +125,20 @@ public class WarehouseService implements BaseService {
         return warehouseRepository.findById(id).orElseThrow(() -> new ValidateException("Warehouse not found", -1400005));
     }
 
-    public List<Warehouse> getAll() {
+    public List<WarehouseResponse> getAll() {
         logger.log(Level.INFO, "WarehouseService getAll method called");
-        return warehouseRepository.findAll();
+        ArrayList<WarehouseResponse> list = new ArrayList<>();
+        warehouseRepository.findAll().forEach(warehouse -> list.add(
+                WarehouseResponse.builder()
+                        .id(warehouse.getId())
+                        .keeperId(warehouse.getKeeperId().getId())
+                        .branchId(warehouse.getBranch().getId())
+                        .address(warehouse.getAddress())
+                        .name(warehouse.getName())
+                        .longitude(warehouse.getLongitude())
+                        .latitude(warehouse.getLatitude())
+                        .build()));
+        return list;
     }
 
     public Page<Warehouse> getAllFixed(Pageable pageable) {

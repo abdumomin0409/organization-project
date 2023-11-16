@@ -68,7 +68,7 @@ public class BranchController extends BaseController<BranchService> {
     @GetMapping(GET_URL)
     public ResponseEntity<ResponseData<?>> getById(@PathVariable(value = "id") Long id) {
         return ResponseEntity.status(200)
-                .body(ResponseData.builder().data(service.getById(id)).code(131213)
+                .body(ResponseData.builder().data(service.getId(id)).code(131213)
                         .message("Branch successfully get by id").success(true).build());
     }
 
