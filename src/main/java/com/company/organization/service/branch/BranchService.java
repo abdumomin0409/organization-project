@@ -65,6 +65,13 @@ public class BranchService implements BaseService {
         return branchRepository.findAll();
     }
 
+    /*
+
+    {"success":true,"code":131214,"message":"Branch successfully get all","data":[{"id":1,"name":"Nimadir","address":"Chilonzor","organization":{"createdBy":1,"updateBy":1,"createdAt":"2023-11-16T15:52:07.4272","updatedAt":"2023-11-16T15:52:07.4272","id":1,"name":"Nano Tech","email":"string@gmail.com","address":"segeli","phoneNumber":"+998931234567","isActive":true,"hibernateLazyInitializer"}}]}{"success":false,"code":-151520,"message":"Type definition error: [simple type, class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor]"}
+
+
+     */
+
     public Page<Branch> getAllFixed(Pageable pageable) {
         logger.log(Level.INFO, "BranchService getAllFixed method called");
         return branchRepository.findAllByPageable(pageable);

@@ -63,14 +63,32 @@ public class IncomeService implements BaseService {
                 .build();
     }
 
-    public boolean existsByOrganizationProduct(Long id) {
-        logger.log(Level.INFO, "BranchService existsByOrganizationId method called");
-        return incomeProductRepository.existsByOrganizationProduct(id);
-    }
-
     public IncomeProduct getByOrganizationProduct(Long id) {
         logger.log(Level.INFO, "BranchService existsByOrganizationId method called");
         return incomeProductRepository.findByOrganizationProduct(id);
+    }
+
+    public ArrayList<IncomeResponse> getIncomesResponseByWarehouseId(Long warehouseId) {
+        logger.log(Level.INFO, "BranchService existsByOrganizationId method called");
+        Warehouse warehouse = warehouseService.getById(warehouseId);
+        ArrayList<IncomeResponse> incomeResponses = new ArrayList<>();
+        incomeRepository.findAllByWarehouse(warehouse).forEach(income -> {
+            ArrayList<IncomeProductResponse> lists = new ArrayList<>();
+            incomeProductRepository.findAllByIncome(income).forEach(incomeProduct -> {
+                lists.add(IncomeProductResponse.builder()
+                        .id(incomeProduct.getId())
+                        .productPrice(incomeProduct.getProductPrise())
+                        .productQuantity(incomeProduct.getQuantity())
+                        .organizationProductId(incomeProduct.getOrganizationProduct().getId())
+                        .build());
+            });
+            incomeResponses.add(IncomeResponse.builder()
+                    .incomeId(income.getId())
+                    .incomeProductList(lists)
+                    .warehouseId(income.getWarehouse().getId())
+                    .build());
+        });
+        return incomeResponses;
     }
 
 

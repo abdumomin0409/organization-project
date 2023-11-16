@@ -1,0 +1,51 @@
+package com.company.organization.controller.outcome;
+
+import com.company.organization.controller.BaseController;
+import com.company.organization.payload.outcome.OutcomeDTO;
+import com.company.organization.response.ResponseData;
+import com.company.organization.service.outcome.OutcomeService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import static com.company.organization.utils.BaseURL.*;
+
+@RestController
+@RequestMapping(OUTCOME_URL)
+@Tag(name = "Outcome Product", description = "This API is used for outcome crud")
+@PreAuthorize("isAuthenticated()")
+public class OutcomeController extends BaseController<OutcomeService> {
+    public OutcomeController(OutcomeService service) {
+        super(service);
+    }
+
+
+    @Operation(summary = "This API is used for create outcome", responses = {
+            @ApiResponse(responseCode = "201", description = "Create Outcome Product", content = @Content(schema = @Schema(implementation = ResponseData.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseData.class)))})
+    @PostMapping(CREATE_URL)
+    public ResponseEntity<ResponseData<?>> create(@Valid @RequestBody OutcomeDTO dto) {
+        return ResponseEntity.status(201)
+                .body(ResponseData.builder().data(service.create(dto)).code(151210)
+                        .message("Outcome product successfully create").success(true).build());
+    }
+
+
+    @Operation(summary = "This API is used for get all incomes by warehouseId", responses = {
+            @ApiResponse(responseCode = "200", description = "get Outcome Product", content = @Content(schema = @Schema(implementation = ResponseData.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = ResponseData.class)))})
+    @GetMapping(GET_ALL_INCOME_OR_OUTCOME_BY_WAREHOUSE_URL)
+    public ResponseEntity<ResponseData<?>> getById(@PathVariable(value = "warehouseId") Long id) {
+        return ResponseEntity.status(200)
+                .body(ResponseData.builder().data(service.getOutcomesResponseByWarehouseId(id)).code(151213)
+                        .message("Outcome product successfully get by id").success(true).build());
+    }
+
+
+}

@@ -14,6 +14,7 @@ import jakarta.validation.constraints.Min;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import static com.company.organization.utils.BaseURL.*;
@@ -21,6 +22,7 @@ import static com.company.organization.utils.BaseURL.*;
 @RestController
 @RequestMapping(WAREHOUSE_URL)
 @Tag(name = "Warehouse", description = "This API is used for warehouse crud")
+@PreAuthorize("isAuthenticated()")
 public class WarehouseController extends BaseController<WarehouseService> {
     public WarehouseController(WarehouseService service) {
         super(service);

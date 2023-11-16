@@ -24,6 +24,7 @@ public interface BaseURL {
     String DELETE_URL = "/delete/id/{id:.*}";
     String DELETE_WITHOUT_ID_URL = "/delete";
     String GET_URL = "/get/id/{id:.*}";
+    String GET_ALL_INCOME_OR_OUTCOME_BY_WAREHOUSE_URL = "/get/all/{warehouseId:.*}";
     String GET_ALL_URL = "/get/all";
     String GET_ALL_PAGEABLE_URL = "/get/all/fixed";
 

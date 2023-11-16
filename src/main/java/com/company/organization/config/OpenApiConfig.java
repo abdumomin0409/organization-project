@@ -23,7 +23,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
-import static com.company.organization.utils.BaseURL.BASE_URL;
+import static com.company.organization.utils.BaseURL.*;
 
 @Configuration
 public class OpenApiConfig {
@@ -47,6 +47,70 @@ public class OpenApiConfig {
     }
 
     @Bean
+    public GroupedOpenApi organizationOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("organization")
+                .pathsToMatch(ORGANIZATION_URL + "/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi branchOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("branch")
+                .pathsToMatch(BRANCH_URL + "/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi warehouseOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("warehouse")
+                .pathsToMatch(WAREHOUSE_URL + "/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi productOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("product")
+                .pathsToMatch(PRODUCT_URL + "/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi orgProductOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("organization-product")
+                .pathsToMatch(ORGANIZATION_PRODUCT_URL + "/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi incomeProductOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("income")
+                .pathsToMatch(INCOME_URL + "/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi outcomeOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("outcome")
+                .pathsToMatch(OUTCOME_URL + "/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi authOpenApi() {
+        return GroupedOpenApi.builder()
+                .group("authentications")
+                .pathsToMatch(AUTH_URL + "/**")
+                .build();
+    }
+
+    @Bean
     public OpenAPI springOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
@@ -66,8 +130,8 @@ public class OpenApiConfig {
                         .url("https://springshop.wiki.github.org/docs"))
                 .servers(List.of(
                         new Server().url("http://localhost:8080").description("Development Server")
-                     // , new Server().url("http://192.168.68.101:8080").description("Production Server"),
-                     //   new Server().url("http://localhost:9090").description("Test Server")
+                        // , new Server().url("http://192.168.68.101:8080").description("Production Server"),
+                        //   new Server().url("http://localhost:9090").description("Test Server")
                 )).addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components((new Components()
                         .addSecuritySchemes("bearerAuth", new SecurityScheme()

@@ -14,6 +14,7 @@ import jakarta.validation.constraints.Min;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import static com.company.organization.utils.BaseURL.*;
@@ -21,6 +22,8 @@ import static com.company.organization.utils.BaseURL.*;
 @RestController
 @RequestMapping(ORGANIZATION_PRODUCT_URL)
 @Tag(name = "Organization_Product", description = "This API is used for organization product crud")
+// @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPER_ADMIN')")
+@PreAuthorize("isAuthenticated()")
 public class OrganizationProductController extends BaseController<OrganizationProductService> {
     public OrganizationProductController(OrganizationProductService service) {
         super(service);

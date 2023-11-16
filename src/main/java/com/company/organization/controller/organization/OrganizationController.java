@@ -15,6 +15,7 @@ import jakarta.validation.constraints.Min;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import static com.company.organization.utils.BaseURL.*;
@@ -22,6 +23,7 @@ import static com.company.organization.utils.BaseURL.*;
 @RestController
 @RequestMapping(ORGANIZATION_URL)
 @Tag(name = "Organization", description = "This API is used for organization crud")
+@PreAuthorize("isAuthenticated()")
 public class OrganizationController extends BaseController<OrganizationService> {
     public OrganizationController(OrganizationService service) {
         super(service);

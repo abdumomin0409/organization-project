@@ -24,7 +24,7 @@ public class Branch implements BaseDomain {
 
     private String address;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "organization_id", referencedColumnName = "id")
     private Organization organization;
 

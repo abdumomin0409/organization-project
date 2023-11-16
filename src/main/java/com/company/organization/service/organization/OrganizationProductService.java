@@ -35,6 +35,7 @@ public class OrganizationProductService implements BaseService {
                 OrganizationProduct saved = repository.save(OrganizationProduct.organizationProductBuilder()
                         .organization(organizationService.getById(organizationId))
                         .product(productService.getById(productId))
+                        .isActive(true)
                         .build());
                 responses.add(OrganizationProductResponse.builder()
                         .createdAt(saved.getCreatedAt())
@@ -66,7 +67,7 @@ public class OrganizationProductService implements BaseService {
 
     public OrganizationProductResponse getById(Long id) {
         logger.log(Level.INFO, "OrganizationProductService getById method called");
-        OrganizationProduct found = repository.findById(id).orElseThrow(() -> new ValidateException("Organization not found", -1400005));
+        OrganizationProduct found = repository.findById(id).orElseThrow(() -> new ValidateException("Organization product not found", -1400005));
         return OrganizationProductResponse.builder()
                 .createdAt(found.getCreatedAt())
                 .organizationId(found.getOrganization().getId())
