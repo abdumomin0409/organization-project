@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
+
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select (count(o) > 0) from Product o where o.isActive = true and upper(o.name) = upper(?1)")
@@ -18,4 +20,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("select o from Product o where o.isActive = true")
     Page<Product> findAllByPageable(Pageable pageable);
 
+    @org.jetbrains.annotations.NotNull
+    @Query("select p from Product p where p.isActive = true and p.id = ?1")
+    @Override
+    Optional<Product> findById(@org.jetbrains.annotations.NotNull Long id);
 }

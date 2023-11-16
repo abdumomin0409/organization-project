@@ -3,9 +3,12 @@ package com.company.organization.repository.auth;
 import com.company.organization.domain.user.UserSms;
 import com.company.organization.enums.SmsCodeType;
 import jakarta.transaction.Transactional;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+
+import java.util.Optional;
 
 public interface UserSmsRepository extends JpaRepository<UserSms, Integer> {
 

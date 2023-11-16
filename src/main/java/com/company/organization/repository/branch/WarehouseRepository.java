@@ -8,7 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
+
 public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
+    @Override
     @Query("select (count(o) > 0) from Warehouse o where o.isActive = true and o.id = ?1")
     boolean existsById(@NotNull Long id);
 
@@ -20,5 +23,10 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
 
     @Query("select (count(w) > 0) from Warehouse w where w.isActive = true and w.branch = ?1")
     boolean existsWarehouseByBranch(Branch branch);
+
+    @Override
+    @Query("select w from Warehouse w where w.isActive = true and w.id = ?1")
+    @org.jetbrains.annotations.NotNull
+    Optional<Warehouse> findById(@org.jetbrains.annotations.NotNull Long id);
 
 }
