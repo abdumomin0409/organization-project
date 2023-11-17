@@ -1,8 +1,6 @@
 package com.company.organization.repository.organization;
 
-import com.company.organization.domain.organization.Organization;
 import com.company.organization.domain.organization.OrganizationProduct;
-import com.company.organization.domain.organization.Product;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,8 +23,8 @@ public interface OrganizationProductRepository extends JpaRepository<Organizatio
     @Query("select o from OrganizationProduct o where o.isActive = true")
     Page<OrganizationProduct> findAllByPageable(Pageable pageable);
 
-    @Query("select (count(o) > 0) from OrganizationProduct o where o.isActive = true and o.id = ?1")
     @Override
+    @Query("select (count(o) > 0) from OrganizationProduct o where o.isActive = true and o.id = ?1")
     boolean existsById(@NotNull Long id);
 
 }

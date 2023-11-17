@@ -38,24 +38,26 @@ public class OutcomeService implements BaseService {
                 .warehouse(warehouse)
                 .build());
         dto.getOutcomeProductDTOList().forEach(outcomeProductDTO -> {
-            OutcomeProduct outcomeProduct = getByOrganizationProduct(outcomeProductDTO.getOrganizationProductId());
-            if (Objects.nonNull(outcomeProduct)) {
-                outcomeProduct.setQuantity(outcomeProduct.getQuantity() + outcomeProductDTO.getProductQuantity());
-                outcomeProduct = outcomeProductRepository.save(outcomeProduct);
-            } else {
-                outcomeProduct = outcomeProductRepository.save(OutcomeProduct.builder()
-                        .outcome(savedOutcome)
-                        .productPrise(outcomeProductDTO.getProductPrice())
-                        .quantity(outcomeProductDTO.getProductQuantity())
-                        .organizationProduct(organizationProductService.findById(outcomeProductDTO.getOrganizationProductId()))
+            if (organizationProductService.existsById(outcomeProductDTO.getOrganizationProductId())) {
+                OutcomeProduct outcomeProduct = getByOrganizationProduct(outcomeProductDTO.getOrganizationProductId());
+                if (Objects.nonNull(outcomeProduct)) {
+                    outcomeProduct.setQuantity(outcomeProduct.getQuantity() + outcomeProductDTO.getProductQuantity());
+                    outcomeProduct = outcomeProductRepository.save(outcomeProduct);
+                } else {
+                    outcomeProduct = outcomeProductRepository.save(OutcomeProduct.builder()
+                            .outcome(savedOutcome)
+                            .productPrise(outcomeProductDTO.getProductPrice())
+                            .quantity(outcomeProductDTO.getProductQuantity())
+                            .organizationProduct(organizationProductService.findById(outcomeProductDTO.getOrganizationProductId()))
+                            .build());
+                }
+                lists.add(OutcomeProductResponse.builder()
+                        .id(outcomeProduct.getId())
+                        .productPrice(outcomeProduct.getProductPrise())
+                        .productQuantity(outcomeProduct.getQuantity())
+                        .organizationProductId(outcomeProduct.getOrganizationProduct().getId())
                         .build());
             }
-            lists.add(OutcomeProductResponse.builder()
-                    .id(outcomeProduct.getId())
-                    .productPrice(outcomeProduct.getProductPrise())
-                    .productQuantity(outcomeProduct.getQuantity())
-                    .organizationProductId(outcomeProduct.getOrganizationProduct().getId())
-                    .build());
         });
         return OutcomeResponse.builder()
                 .outcomeId(savedOutcome.getId())

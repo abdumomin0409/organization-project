@@ -37,25 +37,26 @@ public class IncomeService implements BaseService {
                 .build());
         ArrayList<IncomeProductResponse> lists = new ArrayList<>();
         dto.getIncomeProductDTOList().forEach(incomeProductDTO -> {
-            // TODO: 8/12/2021  check if organization_product exists in warehouse
-            IncomeProduct incomeProduct = getByOrganizationProduct(incomeProductDTO.getOrganizationProductId());
-            if (Objects.nonNull(incomeProduct)) {
-                incomeProduct.setQuantity(incomeProduct.getQuantity() + incomeProductDTO.getProductQuantity());
-                incomeProduct = incomeProductRepository.save(incomeProduct);
-            } else {
-                incomeProduct = incomeProductRepository.save(IncomeProduct.builder()
-                        .income(savedIncome)
-                        .productPrise(incomeProductDTO.getProductPrice())
-                        .quantity(incomeProductDTO.getProductQuantity())
-                        .organizationProduct(organizationProductService.findById(incomeProductDTO.getOrganizationProductId()))
+            if (organizationProductService.existsById(incomeProductDTO.getOrganizationProductId())) {
+                IncomeProduct incomeProduct = getByOrganizationProduct(incomeProductDTO.getOrganizationProductId());
+                if (Objects.nonNull(incomeProduct)) {
+                    incomeProduct.setQuantity(incomeProduct.getQuantity() + incomeProductDTO.getProductQuantity());
+                    incomeProduct = incomeProductRepository.save(incomeProduct);
+                } else {
+                    incomeProduct = incomeProductRepository.save(IncomeProduct.builder()
+                            .income(savedIncome)
+                            .productPrise(incomeProductDTO.getProductPrice())
+                            .quantity(incomeProductDTO.getProductQuantity())
+                            .organizationProduct(organizationProductService.findById(incomeProductDTO.getOrganizationProductId()))
+                            .build());
+                }
+                lists.add(IncomeProductResponse.builder()
+                        .id(incomeProduct.getId())
+                        .productPrice(incomeProduct.getProductPrise())
+                        .productQuantity(incomeProduct.getQuantity())
+                        .organizationProductId(incomeProduct.getOrganizationProduct().getId())
                         .build());
             }
-            lists.add(IncomeProductResponse.builder()
-                    .id(incomeProduct.getId())
-                    .productPrice(incomeProduct.getProductPrise())
-                    .productQuantity(incomeProduct.getQuantity())
-                    .organizationProductId(incomeProduct.getOrganizationProduct().getId())
-                    .build());
         });
         return IncomeResponse.builder()
                 .incomeId(savedIncome.getId())
