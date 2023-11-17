@@ -22,4 +22,7 @@ public interface RolesRepository extends JpaRepository<Roles, Long> {
     @Query("select (count(o) > 0) from Roles o where o.isActive = true and o.id = ?1")
     boolean existsById(@NotNull Long id);
 
+    @Query("select (count(r) > 0) from Roles r where r.isActive = true and r.name = ?1")
+    boolean existsByName(String name);
+
 }

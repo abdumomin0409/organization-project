@@ -60,7 +60,12 @@ public class AuthService implements BaseService {
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         User user = userMapper.USER_MAPPER.toEntity(dto);
         user.setIsActive(false);
-        user.setRoles(Roles.builder().createdAt(LocalDateTime.now()).isActive(true).name("USER").build());
+        Roles roles;
+        if (rolesRepository.existsByName("USER"))
+            roles = rolesRepository.findByActiveAndName("USER");
+        else
+            roles = rolesRepository.save(Roles.builder().name("USER").isActive(true).createdAt(LocalDateTime.now()).build());
+        user.setRoles(roles);
         User saved = saveToDb(user);
         applicationEventPublisher.publishEvent(new UserSmsSaveEvent(saved, SmsCodeType.ACTIVATION));
     }
