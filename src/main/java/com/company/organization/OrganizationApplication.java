@@ -27,20 +27,16 @@ public class OrganizationApplication {
     }
 
 
+//  TODO: resources/logback-spring.xml file da log larni noutnookingizda saqlash uchun o'zgartirish kiritish kerak
+//  TODO: com.company.organization.utils.TelegramAppender.java file da botToken va chatID ni o'zgartirish kiritish kerak
+//        bo'lmasa hamma log lar dastur ichga tushgandan keyin dastur egasiga yuboriladi
+//  TODO: resources/application.yml file da postgresql ga ulanish uchun username va password ni o'zgartirish kiritish kerak
+
+
     @Bean
     public AuditorAware<Long> auditorProvider(SessionUser sessionUser) {
         return () -> Optional.ofNullable(sessionUser.id());
     }
 
-    /*
-
-  {
-    "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIrOTk4OTMwODE1MzUxIiwiaWF0IjoxNzAwMTMxNzMyLCJpc3MiOiIgICAiLCJleHAiOjE3MDAxMzg5MzJ9.66E8xxnVGXPFELroQzrqNlG6Sf2oAAqOzsW4fQBU_NHkKY-0i6DtNmrngk9tUUNVTJp7jtbg4yJmIvuq8Y0CCw",
-    "accessTokenExpiry": "2023-11-16T12:48:52.663+00:00",
-    "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIrOTk4OTMwODE1MzUxIiwiaWF0IjoxNzAwMTMxNzMyLCJpc3MiOiIgICAiLCJleHAiOjE3MDA5OTU3MzJ9.1r2SesgmBZwYLj-wzFJeJWAPkUeMx9pR2e-kJVMWyHE",
-    "refreshTokenExpiry": "2023-11-26T10:48:52.677+00:00"
-  }
-
-     */
 
 }

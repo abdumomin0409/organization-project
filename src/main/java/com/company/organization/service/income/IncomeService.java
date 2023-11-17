@@ -37,6 +37,7 @@ public class IncomeService implements BaseService {
                 .build());
         ArrayList<IncomeProductResponse> lists = new ArrayList<>();
         dto.getIncomeProductDTOList().forEach(incomeProductDTO -> {
+            // TODO: 8/12/2021  check if organization_product exists in warehouse
             IncomeProduct incomeProduct = getByOrganizationProduct(incomeProductDTO.getOrganizationProductId());
             if (Objects.nonNull(incomeProduct)) {
                 incomeProduct.setQuantity(incomeProduct.getQuantity() + incomeProductDTO.getProductQuantity());
