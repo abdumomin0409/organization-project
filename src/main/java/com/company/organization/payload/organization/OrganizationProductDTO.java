@@ -1,5 +1,6 @@
 package com.company.organization.payload.organization;
 
+import com.company.organization.payload.BaseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @Getter
 @Setter
-public class OrganizationProductDTO {
+public class OrganizationProductDTO implements BaseDTO {
     Long organizationId;
     ArrayList<Long> productIdList;
 }

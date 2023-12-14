@@ -1,5 +1,6 @@
 package com.company.organization.payload.branch;
 
+import com.company.organization.payload.BaseDTO;
 import lombok.*;
 
 @Getter
@@ -7,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class WarehouseResponse {
+public class WarehouseResponse implements BaseDTO {
     private Long id;
     private String name;
     private String address;

@@ -1,5 +1,6 @@
 package com.company.organization.payload.organization;
 
+import com.company.organization.payload.BaseDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class OrganizationProductResponse {
+public class OrganizationProductResponse implements BaseDTO {
     private Long id;
     private Long organizationId;
     private Long productId;

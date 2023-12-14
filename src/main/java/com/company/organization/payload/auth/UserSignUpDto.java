@@ -1,6 +1,7 @@
 package com.company.organization.payload.auth;
 
 import com.company.organization.annotations.annotation.UniquePhoneNumber;
+import com.company.organization.payload.BaseDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -10,7 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserSignUpDto {
+public class UserSignUpDto implements BaseDTO {
 
     @NotBlank(message = "fio bo'sh bo'lmasligi kerak")
     private String fullName;

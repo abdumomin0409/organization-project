@@ -1,5 +1,6 @@
 package com.company.organization.payload.auth;
 
+import com.company.organization.payload.BaseDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -9,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserSmsDto {
+public class UserSmsDto implements BaseDTO {
     @NotNull(message = "Phone Number can not be null or empty ")
     @NotBlank(message = "Phone Number can not be null or empty ")
     @Size(min = 13, max = 13, message = "Phone Number must be {min} digits")

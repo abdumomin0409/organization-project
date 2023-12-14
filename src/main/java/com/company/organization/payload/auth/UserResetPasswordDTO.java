@@ -1,5 +1,6 @@
 package com.company.organization.payload.auth;
 
+import com.company.organization.payload.BaseDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -9,4 +10,4 @@ public record UserResetPasswordDTO(@NotBlank(message = "Phone Number can not be 
                                    @Size(min = 8, max = 16, message = "Password must be between 8 and 16 characters")
                                    String password,
                                    @NotBlank(message = "Code can not be blank")
-                                   String code) {}
+                                   String code) implements BaseDTO {}

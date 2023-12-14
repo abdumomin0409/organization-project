@@ -1,5 +1,6 @@
 package com.company.organization.payload.outcome;
 
+import com.company.organization.payload.BaseDTO;
 import com.company.organization.payload.income.IncomeProductResponse;
 import lombok.*;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 @Getter
 @Setter
 @Builder
-public class OutcomeResponse {
+public class OutcomeResponse implements BaseDTO {
     private Long warehouseId;
     private Long outcomeId;
     ArrayList<OutcomeProductResponse> outcomeProductList;

@@ -1,5 +1,6 @@
 package com.company.organization.payload.auth;
 
+import com.company.organization.payload.BaseDTO;
 import lombok.*;
 
 import java.util.Date;
@@ -9,7 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TokenResponse {
+public class TokenResponse implements BaseDTO {
     private String accessToken;
     private Date accessTokenExpiry;
     private String refreshToken;

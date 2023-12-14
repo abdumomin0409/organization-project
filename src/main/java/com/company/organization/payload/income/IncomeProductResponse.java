@@ -1,5 +1,6 @@
 package com.company.organization.payload.income;
 
+import com.company.organization.payload.BaseDTO;
 import lombok.*;
 
 @AllArgsConstructor
@@ -7,7 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class IncomeProductResponse {
+public class IncomeProductResponse implements BaseDTO {
     private Long id;
     private Long organizationProductId;
     private Double productPrice;

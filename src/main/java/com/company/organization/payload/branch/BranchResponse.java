@@ -1,5 +1,6 @@
 package com.company.organization.payload.branch;
 
+import com.company.organization.payload.BaseDTO;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BranchResponse {
+public class BranchResponse implements BaseDTO {
     private Long id;
     private String name;
     private String address;
