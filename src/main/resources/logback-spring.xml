@@ -26,17 +26,18 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
     </appender>
+
     <appender name="TelegramAppender" class="com.company.organization.utils.TelegramAppender">
     </appender>
 
     <root level="info">
-        <appender-ref ref="RollingFile"/>
+<!--        <appender-ref ref="RollingFile"/>-->
         <appender-ref ref="Console"/>
         <appender-ref ref="TelegramAppender"/>
     </root>
 
     <logger name="com.company.organization" level="info" additivity="false">
-        <appender-ref ref="RollingFile"/>
+<!--        <appender-ref ref="RollingFile"/>-->
         <appender-ref ref="Console"/>
         <appender-ref ref="TelegramAppender"/>
     </logger>
